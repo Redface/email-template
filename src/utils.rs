@@ -7,6 +7,13 @@ use serde_json::Value;
 const PREFIX: &str = "{";
 const SUFFIX: &str = "}";
 
+/// strip template string syntax
+///
+/// ```rust
+/// let str = String::from("{name}");
+/// let result = strip_prefix_suffix(str);
+/// println!("{}", result); // "name"
+/// ```
 fn strip_prefix_suffix(str: String) -> String {
     str.strip_prefix(PREFIX)
         .unwrap()
@@ -15,6 +22,16 @@ fn strip_prefix_suffix(str: String) -> String {
         .to_string()
 }
 
+/// replace template string with matched value in json
+///
+/// ```rust
+/// let str = String::from("hello, {name}.");
+/// let json = serde_json::json!({
+///     "name": "buddy"
+/// });
+/// let result = get_replaced_str(str, &json);
+/// println!("{}", result); // "hello, buddy."
+/// ```
 fn get_replaced_str(s: &str, json: &serde_json::Value) -> String {
     let _re = Regex::new(r"[{][a-zA-Z]+[}]").unwrap();
     let mut result: String = String::from(s);
@@ -36,16 +53,28 @@ fn get_replaced_str(s: &str, json: &serde_json::Value) -> String {
 }
 
 
+/// load json data from path
 pub fn get_json_data(file_name: &str) -> JsonData {
     let json_file = fs::File::open(file_name).expect("file should open read only");
     serde_json::from_reader(json_file).expect("file should be proper JSON")
 }
 
+/// load email data from path
 pub fn get_email_contents(email_file_path: &str) -> String {
     fs::read_to_string(email_file_path)
         .expect("Something went wrong reading the template config file")
 }
 
+/// get multiple headers by multiple recipients, from, and subject
+///
+/// ```rust
+/// let recipients = vec![String::from("someone1 <someone1@gmail.com>"), String::from("someone2 <someone2@gmail.com>")];
+/// let from = "me <abc@gmail.com>";
+/// let subject = "hello";
+/// let headers = get_headers(recipients, from, subject);
+///
+/// println!("{:?}", headers); // [Header { from: "me <abc@gmail.com>", recipient: "someone1 <someone1@gmail.com>", subject: "hello" }, Header { from: "me <abc@gmail.com>", recipient: "someone2 <someone2@gmail.com>", subject: "hello" }]
+/// ```
 pub fn get_headers(recipients: Vec<String>, from: String, subject: String) -> Vec<Header> {
     recipients
         .iter()
@@ -55,6 +84,23 @@ pub fn get_headers(recipients: Vec<String>, from: String, subject: String) -> Ve
         .collect()
 }
 
+/// asdf
+///
+/// ```rust
+/// let contents = String::from("Hello, {name}.\nI am so {feeling}.");
+/// let json1 = serde_json::json!({
+///     "name": "buddy",
+///     "feeling": "great"
+/// });
+/// let json2 = serde_json::json!({
+///     "name": "mate",
+///     "feeling": "happy"
+/// });
+/// let json_bodies = vec![json1, json2];
+/// let bodies = get_bodies(contents, json_bodies);
+///
+/// println!("{:?}", bodies) // ["\nHello, buddy.\nI am so great.", "\nHello, mate.\nI am so happy."]
+/// ```
 pub fn get_bodies(contents: String, json_bodies: Vec<Value>) -> Vec<String> {
     json_bodies
         .iter()
@@ -73,6 +119,7 @@ pub fn get_bodies(contents: String, json_bodies: Vec<Value>) -> Vec<String> {
         .collect()
 }
 
+// generate emails combining header and body
 pub fn generate_emails(headers: Vec<Header>, bodies: Vec<String>) -> Vec<Message> {
     let mut emails: Vec<Message> = Vec::new();
     for (i, body) in bodies.iter().enumerate() {
