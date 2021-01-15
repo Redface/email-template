@@ -84,7 +84,7 @@ pub fn get_headers(recipients: Vec<String>, from: String, subject: String) -> Ve
         .collect()
 }
 
-/// asdf
+/// get body contents by matching text contents and json
 ///
 /// ```rust
 /// let contents = String::from("Hello, {name}.\nI am so {feeling}.");
