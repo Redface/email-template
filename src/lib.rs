@@ -70,7 +70,7 @@ impl<'a> EmailMessage<'a> {
     ///    println!("emails: {:?}", emails);
     /// }
     /// ```
-    pub fn build_emails(&self) -> Vec<Message> {
+    fn build_emails(&self) -> Vec<Message> {
         let json_data = get_json_data(self.json_path);
         let contents = get_email_contents(self.email_path);
 
