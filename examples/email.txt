@@ -1,0 +1,12 @@
+Dear {name},
+
+{text} {name}
+I am glad to invite you to our community.
+Here's details, and let me know if you have any questions.
+
+Looking forward to hearing from you soon.
+
+Regards,
+Somebody name,
+{phone}
+{company}
