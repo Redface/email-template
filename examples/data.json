@@ -1,21 +1,21 @@
 {
   "header": {
-    "from": "jazzy redface <redface0512@gmail.com>",
+    "from": "user1 <user1@gmail.com>",
     "recipients": [
-      "bboy redface <redface0512@gmail.com>",
-      "redface lee <redface0512@gmail.com>"
+      "user2 <user2@gmail.com>",
+      "user3 <user3@gmail.com>"
     ],
     "subject": "hello everyone"
   },
   "bodies": [{
-    "name": "bboy redface",
-    "phone": "777-888-999",
-    "company": "Redface Co.",
+    "name": "user2",
+    "phone": "123-456-789",
+    "company": "company1.",
     "text": "hi there, I hope you are doing well."
   },{
-    "name": "redface lee",
+    "name": "user3",
     "phone": "777-888-999",
-    "company": "Redface Co.",
+    "company": "company2.",
     "text": "hi there, I hope you are doing well."
   }]
 }
