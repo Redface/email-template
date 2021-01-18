@@ -3,6 +3,13 @@ name = "email-template"
 version = "0.1.0"
 authors = ["Daehwan Lee <redface0512@gmail.com>"]
 edition = "2018"
+description = "Email template generator"
+documentation = "https://github.com/Redface/email-template/blob/main/README.md"
+homepage = "https://github.com/Redface/email-template"
+repository = "https://github.com/Redface/email-template"
+readme = "https://github.com/Redface/email-template/blob/main/README.md"
+license-file = "LICENSE-MIT"
+keywords = ["email", "email-template"]
 
 [dependencies]
 serde = { version = "1.0.118", features = ["derive"] }
