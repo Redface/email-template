@@ -8,7 +8,7 @@ documentation = "https://github.com/Redface/email-template/blob/main/README.md"
 homepage = "https://github.com/Redface/email-template"
 repository = "https://github.com/Redface/email-template"
 readme = "README.md"
-license-file = "LICENSE-MIT.txt"
+license = "MIT"
 keywords = ["email", "email-template"]
 
 [dependencies]
