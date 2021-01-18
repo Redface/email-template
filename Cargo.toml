@@ -1,6 +1,6 @@
 [package]
 name = "email-template"
-version = "0.1.0"
+version = "0.1.1"
 authors = ["Daehwan Lee <redface0512@gmail.com>"]
 edition = "2018"
 description = "Email template generator"
@@ -8,7 +8,7 @@ documentation = "https://github.com/Redface/email-template/blob/main/README.md"
 homepage = "https://github.com/Redface/email-template"
 repository = "https://github.com/Redface/email-template"
 readme = "README.md"
-license-file = "LICENSE-MIT"
+license-file = "LICENSE-MIT.txt"
 keywords = ["email", "email-template"]
 
 [dependencies]
