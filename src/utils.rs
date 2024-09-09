@@ -194,15 +194,9 @@ mod tests {
         let emails = generate_emails(headers.clone(), bodies);
         for (i, email) in emails.iter().enumerate() {
             let header = headers.get(i).unwrap();
-            email.headers().iter().for_each(|header_view| {
-                let value = header_view.value_string();
-                match header_view.name() {
-                    "From" => assert_eq!(value, header.from),
-                    "To" => assert_eq!(value, header.recipient),
-                    "Subject" => assert_eq!(value, header.subject),
-                    _ => (),
-                }
-            })
+            assert_eq!(email.headers().get_raw("From").unwrap(), header.from);
+            assert_eq!(email.headers().get_raw("To").unwrap(), header.recipient);
+            assert_eq!(email.headers().get_raw("Subject").unwrap(), header.subject);
         }
     }
 }
