@@ -12,7 +12,7 @@ license = "MIT"
 keywords = ["email", "email-template"]
 
 [dependencies]
-serde = { version = "1.0.118", features = ["derive"] }
-serde_json = { version = "1.0.59" }
-regex = { version = "1.4.2" }
-lettre = { version = "0.10.0-alpha.4" }
+serde = { version = "1.0.210", features = ["derive"] }
+serde_json = { version = "1.0.128" }
+regex = { version = "1.10.6" }
+lettre = { version = "0.11.8" }

@@ -1,8 +1,8 @@
-use regex::Regex;
 use crate::{Header, JsonData};
-use std::fs;
-use lettre::{Message};
+use lettre::Message;
+use regex::Regex;
 use serde_json::Value;
+use std::fs;
 
 const PREFIX: &str = "{";
 const SUFFIX: &str = "}";
@@ -36,7 +36,6 @@ fn get_replaced_str(s: &str, json: &serde_json::Value) -> String {
     });
     result
 }
-
 
 /// load json data from path
 pub fn get_json_data(file_name: &str) -> JsonData {
@@ -88,7 +87,7 @@ pub fn generate_emails(headers: Vec<Header>, bodies: Vec<String>) -> Vec<Message
             .from(header.from.parse().unwrap())
             .to(header.recipient.parse().unwrap())
             .subject(header.subject.parse::<String>().unwrap())
-            .body(body)
+            .body(body.to_string())
             .unwrap();
         emails.push(message);
     }
@@ -97,16 +96,24 @@ pub fn generate_emails(headers: Vec<Header>, bodies: Vec<String>) -> Vec<Message
 
 #[cfg(test)]
 mod tests {
-    use crate::utils::{strip_prefix_suffix, get_replaced_str, get_headers, get_bodies, generate_emails};
+    use crate::utils::{
+        generate_emails, get_bodies, get_headers, get_replaced_str, strip_prefix_suffix,
+    };
 
     #[test]
     fn strip_template_wrapper() {
-        assert_eq!(strip_prefix_suffix(String::from("{abc}")), String::from("abc"));
+        assert_eq!(
+            strip_prefix_suffix(String::from("{abc}")),
+            String::from("abc")
+        );
     }
 
     #[test]
     fn strip_template_wrapper_only_outter() {
-        assert_eq!(strip_prefix_suffix(String::from("{{abc}}")), String::from("{abc}"));
+        assert_eq!(
+            strip_prefix_suffix(String::from("{{abc}}")),
+            String::from("{abc}")
+        );
     }
 
     #[test]
@@ -125,7 +132,11 @@ mod tests {
         let someone1 = "someone1 <someone1@gmail.com>";
         let someone2 = "someone2 <someone2@gmail.com>";
         let recipients = vec![String::from(someone1), String::from(someone2)];
-        let headers = get_headers(recipients.clone(), String::from(from), String::from(subject));
+        let headers = get_headers(
+            recipients.clone(),
+            String::from(from),
+            String::from(subject),
+        );
         for (i, header) in headers.iter().enumerate() {
             assert_eq!(header.from, from);
             assert_eq!(header.subject, subject);
@@ -146,7 +157,10 @@ mod tests {
         });
         let json_bodies = vec![json1, json2];
         let bodies = get_bodies(contents, json_bodies);
-        let expected_strs = vec!["\nHello, buddy.\nI am so great.", "\nHello, mate.\nI am so happy."];
+        let expected_strs = vec![
+            "\nHello, buddy.\nI am so great.",
+            "\nHello, mate.\nI am so happy.",
+        ];
         for (i, body) in bodies.iter().enumerate() {
             assert_eq!(body, expected_strs.get(i).unwrap());
         }
@@ -159,7 +173,11 @@ mod tests {
         let someone1 = "someone1 <someone1@gmail.com>";
         let someone2 = "someone2 <someone2@gmail.com>";
         let recipients = vec![String::from(someone1), String::from(someone2)];
-        let headers = get_headers(recipients.clone(), String::from(from), String::from(subject));
+        let headers = get_headers(
+            recipients.clone(),
+            String::from(from),
+            String::from(subject),
+        );
 
         let contents = String::from("Hello, {name}.\nI am so {feeling}.");
         let json1 = serde_json::json!({
@@ -182,10 +200,9 @@ mod tests {
                     "From" => assert_eq!(value, header.from),
                     "To" => assert_eq!(value, header.recipient),
                     "Subject" => assert_eq!(value, header.subject),
-                    _ => ()
+                    _ => (),
                 }
             })
         }
     }
 }
-
